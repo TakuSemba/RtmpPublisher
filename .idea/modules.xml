@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RtmpPublisher.iml" filepath="$PROJECT_DIR$/RtmpPublisher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gles/gles.iml" filepath="$PROJECT_DIR$/gles/gles.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rtmppublisher/rtmppublisher.iml" filepath="$PROJECT_DIR$/rtmppublisher/rtmppublisher.iml" />
+    </modules>
+  </component>
+</project>

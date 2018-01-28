@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion COMPILE_SDK_VERSION as int
+  buildToolsVersion BUILD_TOOLS_VERSION
+  defaultConfig {
+    applicationId "com.takusemba.rtmppublishersample"
+
+    minSdkVersion MIN_SDK_VERSION as int
+    targetSdkVersion TARGET_SDK_VERSION as int
+    versionCode LIBRARY_VERSION_CODE as int
+    versionName LIBRARY_VERSION_NAME
+
+    buildConfigField "String", "STREAMING_URL", "\""+getStreamingUrl()+"\""
+
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  implementation project(':rtmppublisher')
+}
+
+def getStreamingUrl() {
+  Properties properties = new Properties()
+  properties.load(project.rootProject.file('local.properties').newDataInputStream())
+  return properties.getProperty("streaming_url")
+}
