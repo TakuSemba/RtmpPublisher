@@ -1,89 +1,33 @@
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+/**
+ * Bintray release configuration
+ * */
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = POM_BINTRAY_NAME
 
-group = GROUP
-version = LIBRARY_VERSION_NAME
+  publishedGroupId = 'com.quangnguyen.manga'
+  libraryName = 'Manga'
+  artifact = POM_ARTIFACT_ID
+  packagingType = POM_PACKAGING
 
-def getBintrayUserProperty() {
-  return hasProperty('bintrayUser') ? bintrayUser : ""
+  libraryDescription = POM_DESCRIPTION
+
+  siteUrl = 'https://github.com/quangctkm9207/multi-library-bintray'
+  gitUrl = 'https://github.com/quangctkm9207/multi-library-bintray.git'
+
+  libraryVersion = POM_VERSION
+
+  developerId = 'quangctkm9207'
+  developerName = 'Quang Nguyen'
+  developerEmail = 'quangctkm9207@gmail.com'
+
+  licenseName = 'MIT'
+  licenseUrl = 'https://github.com/quangctkm9207/multi-library-bintray/LICENSE'
+  allLicenses = ["MIT"]
 }
 
-def getBintrayApiKeyProperty() {
-  return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
-}
+// Set up the Android Maven publication.
+apply from: rootProject.file('jcenter/maven-install.gradle')
 
-bintray {
-
-  user = bintrayUserProperty
-  key = bintrayApiKeyProperty
-
-  configurations = ['archives']
-  pkg {
-    repo = POM_REPO
-    name = POM_NAME
-    desc = POM_DESCRIPTION
-    websiteUrl = POM_URL
-    issueTrackerUrl = ISSUE_URL
-    vcsUrl = POM_SCM_URL
-    licenses = ['Apache-2.0']
-    labels = ['android']
-    publicDownloadNumbers = true
-  }
-}
-
-install {
-  repositories.mavenInstaller {
-    pom {
-      project {
-        packaging 'aar'
-        name ARTIFACT_ID
-        url POM_URL
-        licenses {
-          license {
-            name POM_LICENSE_NAME
-            url POM_LICENSE_URL
-          }
-        }
-        developers {
-          developer {
-            id POM_DEVELOPER_ID
-            name POM_DEVELOPER_NAME
-            email POM_DEVELOPER_EMAIL
-          }
-        }
-        scm {
-          connection POM_SCM_CONNECTION
-          developerConnection POM_SCM_CONNECTION
-          url POM_URL
-        }
-      }
-    }
-  }
-}
-
-task sourcesJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
-  classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-artifacts {
-  archives javadocJar
-  archives sourcesJar
-}
-
-task findConventions << {
-  println project.getConvention()
-}
-
-tasks.withType(Javadoc).all {
-  enabled = false
-}
+// Publish on Bintray.
+apply from: rootProject.file('jcenter/bintray.gradle')

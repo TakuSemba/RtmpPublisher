@@ -11,5 +11,3 @@ android {
     versionName LIBRARY_VERSION_NAME
   }
 }
-
-apply from: rootProject.file('release-bintray.gradle')
