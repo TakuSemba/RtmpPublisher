@@ -1,0 +1,33 @@
+/**
+ * Bintray release configuration
+ * */
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = POM_BINTRAY_NAME
+
+  publishedGroupId = 'com.quangnguyen.manga'
+  libraryName = 'Manga'
+  artifact = POM_ARTIFACT_ID
+  packagingType = POM_PACKAGING
+
+  libraryDescription = POM_DESCRIPTION
+
+  siteUrl = 'https://github.com/quangctkm9207/multi-library-bintray'
+  gitUrl = 'https://github.com/quangctkm9207/multi-library-bintray.git'
+
+  libraryVersion = POM_VERSION
+
+  developerId = 'quangctkm9207'
+  developerName = 'Quang Nguyen'
+  developerEmail = 'quangctkm9207@gmail.com'
+
+  licenseName = 'MIT'
+  licenseUrl = 'https://github.com/quangctkm9207/multi-library-bintray/LICENSE'
+  allLicenses = ["MIT"]
+}
+
+// Set up the Android Maven publication.
+apply from: rootProject.file('jcenter/maven-install.gradle')
+
+// Publish on Bintray.
+apply from: rootProject.file('jcenter/bintray.gradle')
