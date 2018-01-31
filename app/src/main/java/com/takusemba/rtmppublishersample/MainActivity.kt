@@ -25,6 +25,11 @@ class MainActivity : AppCompatActivity() {
       }
       updateControls()
     }
+
+    val cameraSwitch: Button = findViewById(R.id.toggle_camera)
+    cameraSwitch.setOnClickListener {
+      publisher.switchCamera();
+    }
   }
 
   override fun onResume() {

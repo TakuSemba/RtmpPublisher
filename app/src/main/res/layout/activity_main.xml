@@ -21,4 +21,13 @@
     android:text="Start Publishing"
     />
 
+  <Button
+    android:id="@+id/toggle_camera"
+    style="?android:attr/buttonStyleSmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/toggle_publish"
+    android:text="toggle Camera"
+    />
+
 </RelativeLayout>

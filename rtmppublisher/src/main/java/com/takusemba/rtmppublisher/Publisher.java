@@ -17,6 +17,22 @@ interface Publisher {
   void initialize(AppCompatActivity activity, GLSurfaceView glView);
 
   /**
+   * initialize the Publisher.
+   * after the initialization, this will display a preview from camera.
+   * GLSurfaceView is needed to publish video data with RTMP.
+   *
+   * @param activity see {@link Publisher#initialize(AppCompatActivity, GLSurfaceView)}
+   * @param glView {@link Publisher#initialize(AppCompatActivity, GLSurfaceView)}
+   * @param mode camera mode to start up. default is back.
+   */
+  void initialize(AppCompatActivity activity, GLSurfaceView glView, CameraMode mode);
+
+  /**
+   * switch camera mode between {@link CameraMode#FRONT} and {@link CameraMode#BACK}
+   */
+  void switchCamera();
+
+  /**
    * start publishing video and audio data
    *
    * @param url url to stream data.

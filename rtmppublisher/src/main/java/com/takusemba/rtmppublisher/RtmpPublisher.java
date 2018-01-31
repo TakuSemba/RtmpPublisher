@@ -26,11 +26,15 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
   private Streamer streamer;
 
   @Override public void initialize(AppCompatActivity activity, GLSurfaceView glView) {
+    initialize(activity, glView, CameraMode.BACK);
+  }
 
+  @Override
+  public void initialize(AppCompatActivity activity, GLSurfaceView glView, CameraMode mode) {
     activity.getLifecycle().addObserver(this);
 
     this.glView = glView;
-    this.camera = new CameraClient(activity);
+    this.camera = new CameraClient(activity, mode);
 
     VideoHandler videoHandler = new VideoHandler();
     AudioHandler audioHandler = new AudioHandler();
@@ -43,6 +47,10 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
 
     glView.setRenderer(renderer);
     glView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+  }
+
+  @Override public void switchCamera() {
+    camera.swap();
   }
 
   @Override public void startPublishing(String url) {
