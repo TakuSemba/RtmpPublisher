@@ -18,7 +18,6 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
   implementation 'net.butterflytv.utils:rtmp-client:3.0.1'
-  implementation project(':gles')
 }
 
 group = GROUP
@@ -102,4 +101,8 @@ artifacts {
 
 task findConventions << {
   println project.getConvention()
+}
+
+tasks.withType(Javadoc).all {
+  enabled = false
 }
