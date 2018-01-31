@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.takusemba.gles;
+package com.takusemba.rtmppublisher.gles;
 
 /**
  * Off-screen EGL surface (pbuffer).

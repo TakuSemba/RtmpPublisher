@@ -2,10 +2,10 @@ package com.takusemba.rtmppublisher;
 
 import android.opengl.EGLContext;
 import android.view.Surface;
-import com.takusemba.gles.EglCore;
-import com.takusemba.gles.FullFrameRect;
-import com.takusemba.gles.Texture2dProgram;
-import com.takusemba.gles.WindowSurface;
+import com.takusemba.rtmppublisher.gles.EglCore;
+import com.takusemba.rtmppublisher.gles.FullFrameRect;
+import com.takusemba.rtmppublisher.gles.Texture2dProgram;
+import com.takusemba.rtmppublisher.gles.WindowSurface;
 
 class VideoRenderer {
 

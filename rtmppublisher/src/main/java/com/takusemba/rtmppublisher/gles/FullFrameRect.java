@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.takusemba.gles;
+package com.takusemba.rtmppublisher.gles;
 
 /**
  * This class essentially represents a viewport-sized sprite that will be rendered with
  * a texture, usually from an external source like the camera or video decoder.
  */
 public class FullFrameRect {
-    private final Drawable2d mRectDrawable = new Drawable2d(Drawable2d.Prefab.FULL_RECTANGLE);
+    private final Drawable2d
+        mRectDrawable = new Drawable2d(Drawable2d.Prefab.FULL_RECTANGLE);
     private Texture2dProgram mProgram;
 
     /**

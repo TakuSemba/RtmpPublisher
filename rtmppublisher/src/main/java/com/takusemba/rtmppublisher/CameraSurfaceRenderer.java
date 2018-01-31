@@ -2,8 +2,8 @@ package com.takusemba.rtmppublisher;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
-import com.takusemba.gles.FullFrameRect;
-import com.takusemba.gles.Texture2dProgram;
+import com.takusemba.rtmppublisher.gles.FullFrameRect;
+import com.takusemba.rtmppublisher.gles.Texture2dProgram;
 import java.util.ArrayList;
 import java.util.List;
 import javax.microedition.khronos.egl.EGLConfig;

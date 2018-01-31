@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.takusemba.gles;
+package com.takusemba.rtmppublisher.gles;
 
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
