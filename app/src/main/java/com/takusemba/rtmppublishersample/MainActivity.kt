@@ -41,7 +41,5 @@ class MainActivity : AppCompatActivity() {
         val publishButton: Button = findViewById(R.id.toggle_publish)
         publishButton.text = getString(if (publisher.isPublishing)
             R.string.stop_publishing else R.string.start_publishing)
-        publishButton.background = ContextCompat.getDrawable(this, if (publisher.isPublishing)
-            R.drawable.round_corner_white_dark else R.drawable.round_corner_white_dark)
     }
 }
