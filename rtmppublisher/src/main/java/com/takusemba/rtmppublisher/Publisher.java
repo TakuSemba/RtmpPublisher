@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 interface Publisher {
 
     /**
+     * set {@link PublisherListener}.
+     */
+    void setOnPublisherListener(PublisherListener listener);
+
+    /**
      * initialize the Publisher.
      * after the initialization, this will display a preview from camera.
      * GLSurfaceView is needed to publish video data with RTMP.
@@ -22,7 +27,7 @@ interface Publisher {
      * GLSurfaceView is needed to publish video data with RTMP.
      *
      * @param activity see {@link Publisher#initialize(AppCompatActivity, GLSurfaceView)}
-     * @param glView   {@link Publisher#initialize(AppCompatActivity, GLSurfaceView)}
+     * @param glView   see {@link Publisher#initialize(AppCompatActivity, GLSurfaceView)}
      * @param mode     camera mode to start up. default is back.
      */
     void initialize(AppCompatActivity activity, GLSurfaceView glView, CameraMode mode);

@@ -1,6 +1,10 @@
 <resources>
-  <string name="app_name">RtmpPublisher</string>
+    <string name="app_name">RtmpPublisher</string>
 
-  <string name="start_publishing">Start Publishing</string>
-  <string name="stop_publishing">Stop Publishing</string>
+    <string name="start_publishing">Start Publishing</string>
+    <string name="stop_publishing">Stop Publishing</string>
+    <string name="started_publishing">Publishing Started</string>
+    <string name="stopped_publishing">Publishing Stopped</string>
+    <string name="disconnected_publishing">Publishing Disconnected</string>
+    
 </resources>

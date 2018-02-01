@@ -9,9 +9,9 @@ class Streamer
     private AudioHandler audioHandler;
     private Muxer muxer = new Muxer();
 
-    Streamer(VideoHandler videoHandler, AudioHandler audioHandler) {
-        this.videoHandler = videoHandler;
-        this.audioHandler = audioHandler;
+    Streamer() {
+        this.videoHandler = new VideoHandler();
+        this.audioHandler = new AudioHandler();
     }
 
     boolean open(String url, int width, int height) {
@@ -50,4 +50,13 @@ class Streamer
     public void onAudioDataEncoded(byte[] data, int size, int timestamp) {
         muxer.sendAudio(data, size, timestamp);
     }
+
+    CameraSurfaceRenderer.OnRendererStateChangedListener getVideoHandlerListener() {
+        return videoHandler;
+    }
+
+    void setMuxerListener(PublisherListener listener) {
+        muxer.setOnMuxerStateListener(listener);
+    }
+
 }

@@ -14,6 +14,11 @@ class Muxer {
     private Handler handler;
 
     private RTMPMuxer rtmpMuxer = new RTMPMuxer();
+    private PublisherListener listener;
+
+    void setOnMuxerStateListener(PublisherListener listener) {
+        this.listener = listener;
+    }
 
     boolean open(String url, int width, int height) {
         HandlerThread handlerThread = new HandlerThread("Muxer");
@@ -25,12 +30,16 @@ class Muxer {
                     case MSG_SEND_VIDEO: {
                         if (isConnected()) {
                             rtmpMuxer.writeVideo((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
+                        } else {
+                            if (listener != null) listener.onDisconnected();
                         }
                         break;
                     }
                     case MSG_SEND_AUDIO: {
                         if (isConnected()) {
                             rtmpMuxer.writeAudio((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
+                        } else {
+                            if (listener != null) listener.onDisconnected();
                         }
                         break;
                     }

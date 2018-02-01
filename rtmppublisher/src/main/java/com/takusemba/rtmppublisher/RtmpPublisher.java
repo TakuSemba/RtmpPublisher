@@ -24,6 +24,17 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     private CameraSurfaceRenderer renderer;
     private CameraClient camera;
     private Streamer streamer;
+    private PublisherListener listener;
+
+    public RtmpPublisher(){
+        this.streamer = new Streamer();
+    }
+
+    @Override
+    public void setOnPublisherListener(PublisherListener listener) {
+        this.listener = listener;
+        this.streamer.setMuxerListener(listener);
+    }
 
     @Override
     public void initialize(AppCompatActivity activity, GLSurfaceView glView) {
@@ -37,13 +48,9 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
         this.glView = glView;
         this.camera = new CameraClient(activity, mode);
 
-        VideoHandler videoHandler = new VideoHandler();
-        AudioHandler audioHandler = new AudioHandler();
-        this.streamer = new Streamer(videoHandler, audioHandler);
-
         glView.setEGLContextClientVersion(2);
         renderer = new CameraSurfaceRenderer();
-        renderer.addOnRendererStateChangedLister(videoHandler);
+        renderer.addOnRendererStateChangedLister(streamer.getVideoHandlerListener());
         renderer.addOnRendererStateChangedLister(this);
 
         glView.setRenderer(renderer);
@@ -69,6 +76,7 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     public void startPublishing(String url, final int width, final int height, final int audioBitrate,
                                 final int videoBitrate) {
         streamer.open(url, width, height);
+        if (listener != null) listener.onStarted();
         glView.queueEvent(new Runnable() {
             @Override
             public void run() {
@@ -89,6 +97,7 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     public void stopPublishing() {
         if (streamer.isStreaming()) {
             streamer.stopStreaming();
+            if (listener != null) listener.onStopped();
         }
     }
 

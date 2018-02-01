@@ -25,6 +25,7 @@ android {
 
 dependencies {
     implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    implementation "com.android.support:design:$APP_COMPAT_VERSION"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation project(':rtmppublisher')
 }
