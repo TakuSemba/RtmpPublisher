@@ -16,6 +16,9 @@ class Muxer {
     private RTMPMuxer rtmpMuxer = new RTMPMuxer();
     private PublisherListener listener;
 
+    private boolean disconnected = false;
+    private boolean closed = false;
+
     void setOnMuxerStateListener(PublisherListener listener) {
         this.listener = listener;
     }
@@ -31,7 +34,10 @@ class Muxer {
                         if (isConnected()) {
                             rtmpMuxer.writeVideo((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
-                            if (listener != null) listener.onDisconnected();
+                            if (listener != null && !closed && !disconnected) {
+                                listener.onDisconnected();
+                                disconnected = true;
+                            }
                         }
                         break;
                     }
@@ -39,7 +45,10 @@ class Muxer {
                         if (isConnected()) {
                             rtmpMuxer.writeAudio((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
-                            if (listener != null) listener.onDisconnected();
+                            if (listener != null && !closed && !disconnected) {
+                                listener.onDisconnected();
+                                disconnected = true;
+                            }
                         }
                         break;
                     }
@@ -48,6 +57,8 @@ class Muxer {
             }
         });
         rtmpMuxer.open(url, width, height);
+        disconnected = false;
+        closed = false;
         return rtmpMuxer.isConnected() == 1;
     }
 
@@ -67,6 +78,8 @@ class Muxer {
 
     void close() {
         rtmpMuxer.close();
+        closed = true;
+        disconnected = false;
     }
 
     boolean isConnected() {
