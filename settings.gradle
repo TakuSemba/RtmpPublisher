@@ -1,1 +1,1 @@
-include ':app', ':gles', ':rtmppublisher'
+include ':app', ':rtmppublisher'

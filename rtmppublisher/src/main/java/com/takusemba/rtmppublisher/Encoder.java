@@ -5,18 +5,18 @@ package com.takusemba.rtmppublisher;
  */
 interface Encoder {
 
-  /**
-   * start the Encoder
-   */
-  void start();
+    /**
+     * start the Encoder
+     */
+    void start();
 
-  /**
-   * stop the Encoder
-   */
-  void stop();
+    /**
+     * stop the Encoder
+     */
+    void stop();
 
-  /**
-   * @return if the Encoder is encoding.
-   */
-  boolean isEncoding();
+    /**
+     * @return if the Encoder is encoding.
+     */
+    boolean isEncoding();
 }
