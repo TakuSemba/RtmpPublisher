@@ -17,8 +17,8 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     public static final int DEFAULT_WIDTH = 720;
     public static final int DEFAULT_HEIGHT = 1280;
 
-    public static final int DEFAULT_AUDIO_BITRATE = 64000;
-    public static final int DEFAULT_VIDEO_BITRATE = 1000000;
+    public static final int DEFAULT_AUDIO_BITRATE = 6400;
+    public static final int DEFAULT_VIDEO_BITRATE = 100000;
 
     private GLSurfaceView glView;
     private CameraSurfaceRenderer renderer;
