@@ -2,8 +2,10 @@ package com.takusemba.rtmppublishersample
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
+import android.widget.ImageView
 import com.takusemba.rtmppublisher.RtmpPublisher
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +18,7 @@ class MainActivity : AppCompatActivity() {
     val glView: GLSurfaceView = findViewById(R.id.surface_view)
     publisher.initialize(this, glView)
 
-    val toggle: Button = findViewById(R.id.toggle_publish)
-    toggle.setOnClickListener {
+    findViewById<Button>(R.id.toggle_publish).setOnClickListener {
       if (publisher.isPublishing) {
         publisher.stopPublishing()
       } else {
@@ -26,9 +27,8 @@ class MainActivity : AppCompatActivity() {
       updateControls()
     }
 
-    val cameraSwitch: Button = findViewById(R.id.toggle_camera)
-    cameraSwitch.setOnClickListener {
-      publisher.switchCamera();
+    findViewById<ImageView>(R.id.toggle_camera).setOnClickListener {
+      publisher.switchCamera()
     }
   }
 
@@ -38,7 +38,10 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun updateControls() {
-    val toggleRelease: Button = findViewById(R.id.toggle_publish)
-    toggleRelease.text = if (publisher.isPublishing) "Stop publishing" else "Start publishing"
+    val publishButton: Button = findViewById(R.id.toggle_publish)
+    publishButton.text = getString(
+        if (publisher.isPublishing) R.string.stop_publishing else R.string.start_publishing)
+    publishButton.background = ContextCompat.getDrawable(this,
+        if (publisher.isPublishing) R.drawable.round_corner_white_dark else R.drawable.round_corner_white_dark)
   }
 }
