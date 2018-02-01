@@ -19,7 +19,7 @@ class Streamer
     }
 
     void startStreaming(EGLContext context, int width, int height, int audioBitrate,
-                        int videoBitrate) {
+                        int videoBitrate, PublisherListener listener) {
         if (muxer.isConnected()) {
             long startStreamingAt = System.currentTimeMillis();
             videoHandler.setOnVideoEncoderStateListener(this);
@@ -27,7 +27,7 @@ class Streamer
             videoHandler.start(width, height, videoBitrate, context, startStreamingAt);
             audioHandler.start(audioBitrate, startStreamingAt);
         } else {
-            throw new IllegalStateException("url is not opened");
+            if (listener != null) listener.onFailedToConnect();
         }
     }
 

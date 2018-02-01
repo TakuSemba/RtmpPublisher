@@ -59,4 +59,8 @@ class MainActivity : AppCompatActivity(), PublisherListener {
     override fun onDisconnected() {
         Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.disconnected_publishing, LENGTH_SHORT).show()
     }
+
+    override fun onFailedToConnect() {
+        Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.failed_publishing, LENGTH_SHORT).show()
+    }
 }

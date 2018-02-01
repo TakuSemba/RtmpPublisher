@@ -6,5 +6,6 @@
     <string name="started_publishing">Publishing Started</string>
     <string name="stopped_publishing">Publishing Stopped</string>
     <string name="disconnected_publishing">Publishing Disconnected</string>
+    <string name="failed_publishing">Failed To Connect</string>
     
 </resources>

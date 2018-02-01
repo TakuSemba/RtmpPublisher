@@ -17,4 +17,9 @@ public interface PublisherListener {
      */
     void onDisconnected();
 
+    /**
+     * Called when failed to connect
+     */
+    void onFailedToConnect();
+
 }
