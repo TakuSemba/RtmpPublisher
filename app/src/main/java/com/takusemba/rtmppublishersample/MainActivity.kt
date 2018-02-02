@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(), PublisherListener {
             } else {
                 publisher.startPublishing(BuildConfig.STREAMING_URL)
             }
-            updateControls()
         }
 
         findViewById<ImageView>(R.id.toggle_camera).setOnClickListener {
@@ -50,17 +49,21 @@ class MainActivity : AppCompatActivity(), PublisherListener {
 
     override fun onStarted() {
         Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.started_publishing, LENGTH_SHORT).show()
+        updateControls()
     }
 
     override fun onStopped() {
         Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.stopped_publishing, LENGTH_SHORT).show()
+        updateControls()
     }
 
     override fun onDisconnected() {
         Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.disconnected_publishing, LENGTH_SHORT).show()
+        updateControls()
     }
 
     override fun onFailedToConnect() {
         Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.failed_publishing, LENGTH_SHORT).show()
+        updateControls()
     }
 }

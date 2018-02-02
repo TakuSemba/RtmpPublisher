@@ -76,7 +76,6 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     public void startPublishing(String url, final int width, final int height, final int audioBitrate,
                                 final int videoBitrate) {
         streamer.open(url, width, height);
-        if (listener != null) listener.onStarted();
         glView.queueEvent(new Runnable() {
             @Override
             public void run() {

@@ -14,8 +14,8 @@ class Streamer
         this.audioHandler = new AudioHandler();
     }
 
-    boolean open(String url, int width, int height) {
-        return muxer.open(url, width, height);
+    void open(String url, int width, int height) {
+        muxer.open(url, width, height);
     }
 
     void startStreaming(EGLContext context, int width, int height, int audioBitrate,

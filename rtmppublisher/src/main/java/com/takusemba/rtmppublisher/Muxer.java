@@ -2,14 +2,17 @@ package com.takusemba.rtmppublisher;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 
 import net.butterflytv.rtmp_client.RTMPMuxer;
 
 class Muxer {
 
-    private static final int MSG_SEND_VIDEO = 0;
-    private static final int MSG_SEND_AUDIO = 1;
+    private static final int MSG_OPEN = 0;
+    private static final int MSG_CLOSE = 1;
+    private static final int MSG_SEND_VIDEO = 2;
+    private static final int MSG_SEND_AUDIO = 3;
 
     private Handler handler;
 
@@ -23,21 +26,52 @@ class Muxer {
         this.listener = listener;
     }
 
-    boolean open(String url, int width, int height) {
+    Muxer() {
+        final Handler uiHandler = new Handler(Looper.getMainLooper());
         HandlerThread handlerThread = new HandlerThread("Muxer");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper(), new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
+                    case MSG_OPEN:
+                        rtmpMuxer.open((String) msg.obj, msg.arg1, msg.arg2);
+                        if (listener != null) {
+                            uiHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listener.onStarted();
+                                }
+                            });
+                        }
+                        disconnected = false;
+                        closed = false;
+                        break;
+                    case MSG_CLOSE:
+                        rtmpMuxer.close();
+                        if (listener != null) {
+                            uiHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listener.onStopped();
+                                }
+                            });
+                        }
+                        closed = true;
+                        break;
                     case MSG_SEND_VIDEO: {
                         if (isConnected()) {
                             rtmpMuxer.writeVideo((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
                             if (listener != null && !closed && !disconnected) {
-                                listener.onDisconnected();
-                                disconnected = true;
+                                uiHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listener.onDisconnected();
+                                    }
+                                });
                             }
+                            disconnected = true;
                         }
                         break;
                     }
@@ -46,9 +80,14 @@ class Muxer {
                             rtmpMuxer.writeAudio((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
                             if (listener != null && !closed && !disconnected) {
-                                listener.onDisconnected();
-                                disconnected = true;
+                                uiHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        listener.onDisconnected();
+                                    }
+                                });
                             }
+                            disconnected = true;
                         }
                         break;
                     }
@@ -56,10 +95,13 @@ class Muxer {
                 return false;
             }
         });
-        rtmpMuxer.open(url, width, height);
-        disconnected = false;
-        closed = false;
-        return rtmpMuxer.isConnected() == 1;
+    }
+
+    void open(String url, int width, int height) {
+        Message message = handler.obtainMessage(MSG_OPEN, url);
+        message.arg1 = width;
+        message.arg2 = height;
+        handler.sendMessage(message);
     }
 
     void sendVideo(byte[] data, int length, int timestamp) {
@@ -77,9 +119,7 @@ class Muxer {
     }
 
     void close() {
-        rtmpMuxer.close();
-        closed = true;
-        disconnected = false;
+        handler.sendEmptyMessage(MSG_CLOSE);
     }
 
     boolean isConnected() {
