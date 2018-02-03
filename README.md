@@ -23,7 +23,7 @@ dependencies {
 
 usage is simple. RtmpPublisher does everything.
 
-#### create a Publisher
+### create a Publisher
 ```kt
 val publisher: Publisher = Publisher.Builder(this)
   .setGlView(glView)
@@ -38,7 +38,7 @@ val publisher: Publisher = Publisher.Builder(this)
 
 <img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
 
-#### start RTMP Streaming
+### start RTMP Streaming
 
 ```kt
 
