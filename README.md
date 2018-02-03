@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:rtmppublisher:1.0.3'
+    compile 'com.github.takusemba:rtmppublisher:1.1.0'
 }
 ```
 
@@ -21,24 +21,36 @@ dependencies {
 
 ## Usage
 
-<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
-
 usage is simple. RtmpPublisher does everything.
 
+### create a Publisher
 ```kt
-// use GLSurfaceView for preview
-val glView: GLSurfaceView = findViewById(R.id.surface_view)
-private val publisher = RtmpPublisher()
-publisher.initialize(this, glView)
+val publisher: Publisher = Publisher.Builder(this)
+  .setGlView(glView)
+  .setUrl(rtmpUrl)
+  .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT)
+  .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE)
+  .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE)
+  .setCameraMode(Publisher.Builder.DEFAULT_MODE)
+  .setListener(this)
+  .build()
+```
 
-// start publishing!!! set your rtmp url
-publisher.startPublishing(url)
+<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
+
+### start RTMP Streaming
+
+```kt
+
+// start publishing! set your rtmp url
+publisher.startPublishing()
 
 // switch camera between front and back
 publisher.switchCamera()
 
 // stop publishing!
 publisher.stopPublishing()
+
 
 publisher.setOnPublisherListener(object: PublisherListener {
   override fun onStarted() {
