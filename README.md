@@ -21,15 +21,26 @@ dependencies {
 
 ## Usage
 
-<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
-
 usage is simple. RtmpPublisher does everything.
 
+#### create a Publisher
 ```kt
-// use GLSurfaceView for preview
-val glView: GLSurfaceView = findViewById(R.id.surface_view)
-private val publisher = RtmpPublisher()
-publisher.initialize(this, glView)
+val publisher: Publisher = Publisher.Builder(this) // AppCompatActivity
+  .setGlView(glView) // GLSurfaceView
+  .setUrl(rtmpUrl) // RTPM Url to stream
+  .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT) // default is witdh: 720, height: 1280
+  .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE) // default is 6400
+  .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE) // default is 100000
+  .setCameraMode(Publisher.Builder.DEFAULT_MODE) // default is back
+  .setListener(this) // publisher state listener
+  .build()
+```
+
+<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
+
+#### start RTMP Streaming
+
+```kt
 
 // start publishing!!! set your rtmp url
 publisher.startPublishing(url)
