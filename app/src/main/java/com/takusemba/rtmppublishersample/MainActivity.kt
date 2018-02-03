@@ -2,23 +2,33 @@ package com.takusemba.rtmppublishersample
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.Snackbar.LENGTH_SHORT
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
+import android.view.Gravity
+import android.view.View
+import android.widget.*
 import com.takusemba.rtmppublisher.Publisher
 import com.takusemba.rtmppublisher.PublisherListener
 
 class MainActivity : AppCompatActivity(), PublisherListener {
 
     private lateinit var publisher: Publisher
+    private lateinit var glView: GLSurfaceView
+    private lateinit var container: RelativeLayout
+    private lateinit var button: Button
+    private lateinit var label: TextView
+
+    private val handler = Handler()
+    private var thread: Thread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val glView: GLSurfaceView = findViewById(R.id.surface_view)
+        glView = findViewById(R.id.surface_view)
+        container = findViewById(R.id.container)
+        button = findViewById(R.id.toggle_publish)
+        label = findViewById(R.id.live_label)
+
 
         publisher = Publisher.Builder(this)
                 .setGlView(glView)
@@ -30,7 +40,7 @@ class MainActivity : AppCompatActivity(), PublisherListener {
                 .setListener(this)
                 .build()
 
-        findViewById<Button>(R.id.toggle_publish).setOnClickListener {
+        button.setOnClickListener {
             if (publisher.isPublishing) {
                 publisher.stopPublishing()
             } else {
@@ -48,29 +58,71 @@ class MainActivity : AppCompatActivity(), PublisherListener {
         updateControls()
     }
 
-    private fun updateControls() {
-        val publishButton: Button = findViewById(R.id.toggle_publish)
-        publishButton.text = getString(if (publisher.isPublishing)
-            R.string.stop_publishing else R.string.start_publishing)
-    }
-
     override fun onStarted() {
-        Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.started_publishing, LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.started_publishing, Toast.LENGTH_SHORT)
+                .apply { setGravity(Gravity.CENTER, 0, 0) }
+                .run { show() }
         updateControls()
+        startCounting()
     }
 
     override fun onStopped() {
-        Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.stopped_publishing, LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.stopped_publishing, Toast.LENGTH_SHORT)
+                .apply { setGravity(Gravity.CENTER, 0, 0) }
+                .run { show() }
         updateControls()
+        stopCounting()
     }
 
     override fun onDisconnected() {
-        Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.disconnected_publishing, LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.disconnected_publishing, Toast.LENGTH_SHORT)
+                .apply { setGravity(Gravity.CENTER, 0, 0) }
+                .run { show() }
         updateControls()
+        stopCounting()
     }
 
     override fun onFailedToConnect() {
-        Snackbar.make(findViewById<RelativeLayout>(R.id.container), R.string.failed_publishing, LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.failed_publishing, Toast.LENGTH_SHORT)
+                .apply { setGravity(Gravity.CENTER, 0, 0) }
+                .run { show() }
         updateControls()
+        stopCounting()
+    }
+
+    private fun updateControls() {
+        button.text = getString(if (publisher.isPublishing) R.string.stop_publishing else R.string.start_publishing)
+    }
+
+    private fun startCounting() {
+        label.text = getString(R.string.publishing_label, 0L.format(), 0L.format())
+        label.visibility = View.VISIBLE
+        val startedAt = System.currentTimeMillis()
+        var updatedAt = System.currentTimeMillis()
+        thread = Thread {
+            while (true) {
+                val current = System.currentTimeMillis()
+                if (current - updatedAt > 1000) {
+                    updatedAt = current
+                    handler.post {
+                        val diff = current - startedAt
+                        val second = diff / 1000
+                        val min = second / 60
+                        label.text = getString(R.string.publishing_label, min.format(), second.format())
+                    }
+                }
+            }
+        }
+        thread?.start()
+    }
+
+    private fun stopCounting() {
+        label.text = ""
+        label.visibility = View.GONE
+        thread?.interrupt()
+    }
+
+    private fun Long.format(): String {
+        return String.format("%02d", this)
     }
 }

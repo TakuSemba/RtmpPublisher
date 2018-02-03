@@ -41,15 +41,11 @@ class Muxer {
                                 @Override
                                 public void run() {
                                     if (isConnected()) {
-                                        if (listener != null) {
-                                            listener.onStarted();
-                                        }
+                                        listener.onStarted();
                                         disconnected = false;
                                         closed = false;
                                     } else {
-                                        if (listener != null) {
-                                            listener.onFailedToConnect();
-                                        }
+                                        listener.onFailedToConnect();
                                     }
                                 }
                             });
@@ -61,9 +57,7 @@ class Muxer {
                             uiHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (listener != null) {
-                                        listener.onStopped();
-                                    }
+                                    listener.onStopped();
                                     closed = true;
                                 }
                             });
@@ -73,13 +67,12 @@ class Muxer {
                         if (isConnected()) {
                             rtmpMuxer.writeVideo((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
-                            if (listener != null && !closed && !disconnected) {
+                            if (listener != null) {
                                 uiHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (listener != null) {
-                                            listener.onDisconnected();
-                                        }
+                                        if (closed || disconnected) return;
+                                        listener.onDisconnected();
                                         disconnected = true;
                                     }
                                 });
@@ -91,13 +84,12 @@ class Muxer {
                         if (isConnected()) {
                             rtmpMuxer.writeAudio((byte[]) msg.obj, 0, msg.arg1, msg.arg2);
                         } else {
-                            if (listener != null && !closed && !disconnected) {
+                            if (listener != null) {
                                 uiHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (listener != null) {
-                                            listener.onDisconnected();
-                                        }
+                                        if (closed || disconnected) return;
+                                        listener.onDisconnected();
                                         disconnected = true;
                                     }
                                 });
