@@ -25,13 +25,13 @@ usage is simple. RtmpPublisher does everything.
 
 #### create a Publisher
 ```kt
-val publisher: Publisher = Publisher.Builder(this) // AppCompatActivity
-  .setGlView(glView) // GLSurfaceView
+val publisher: Publisher = Publisher.Builder(this)
+  .setGlView(glView)
   .setUrl(rtmpUrl)
-  .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT) // default witdh: 720, height: 1280
-  .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE) // default: 6400
-  .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE) // default: 100000
-  .setCameraMode(Publisher.Builder.DEFAULT_MODE) // default: CameraMode.BACK
+  .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT)
+  .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE)
+  .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE)
+  .setCameraMode(Publisher.Builder.DEFAULT_MODE)
   .setListener(this)
   .build()
 ```
@@ -42,7 +42,7 @@ val publisher: Publisher = Publisher.Builder(this) // AppCompatActivity
 
 ```kt
 
-// start publishing!!! set your rtmp url
+// start publishing! set your rtmp url
 publisher.startPublishing()
 
 // switch camera between front and back
@@ -50,6 +50,7 @@ publisher.switchCamera()
 
 // stop publishing!
 publisher.stopPublishing()
+
 
 publisher.setOnPublisherListener(object: PublisherListener {
   override fun onStarted() {
