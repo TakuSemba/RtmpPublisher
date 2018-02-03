@@ -56,7 +56,7 @@ publisher.setOnPublisherListener(object: PublisherListener {
 })
 ```
 ## Sample
-Clone this repo and check out the [app](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) module.
+Clone this repo and check out the 
 
 <br/>
 
@@ -64,7 +64,7 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/RtmpPublish
 
 <img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/architecture.png" alt="alt text" style="width:200;height:200">
 
-This is a RTMP android clinet. You also need RTMP server and player.
+Try this [sample](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) here, but this is a RTMP android clinet. You also need RTMP server and player to do publish and play them.
 
 You can either make the server and player yourself or use the ones below that i prepared.
 
@@ -76,8 +76,6 @@ https://github.com/TakuSemba/RtmpPlayer
 
 #### HLS Player
 https://github.com/TakuSemba/HlsPlayer
-
-
 
 
 ## Change Log
