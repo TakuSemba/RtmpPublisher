@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), PublisherListener {
             if (publisher.isPublishing) {
                 publisher.stopPublishing()
             } else {
-                publisher.startPublishing(BuildConfig.STREAMING_URL)
+                publisher.startPublishing("")
             }
         }
 

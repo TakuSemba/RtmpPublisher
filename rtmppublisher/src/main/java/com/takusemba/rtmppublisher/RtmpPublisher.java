@@ -85,7 +85,7 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
                     @Override
                     public void run() {
                         // back to main thread
-                        streamer.startStreaming(context, width, height, audioBitrate, videoBitrate, listener);
+                        streamer.startStreaming(context, width, height, audioBitrate, videoBitrate);
                     }
                 });
             }
@@ -96,7 +96,6 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     public void stopPublishing() {
         if (streamer.isStreaming()) {
             streamer.stopStreaming();
-            if (listener != null) listener.onStopped();
         }
     }
 

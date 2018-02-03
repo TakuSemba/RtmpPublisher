@@ -19,15 +19,13 @@ class Streamer
     }
 
     void startStreaming(EGLContext context, int width, int height, int audioBitrate,
-                        int videoBitrate, PublisherListener listener) {
+                        int videoBitrate) {
         if (muxer.isConnected()) {
             long startStreamingAt = System.currentTimeMillis();
             videoHandler.setOnVideoEncoderStateListener(this);
             audioHandler.setOnAudioEncoderStateListener(this);
             videoHandler.start(width, height, videoBitrate, context, startStreamingAt);
             audioHandler.start(audioBitrate, startStreamingAt);
-        } else {
-            if (listener != null) listener.onFailedToConnect();
         }
     }
 
