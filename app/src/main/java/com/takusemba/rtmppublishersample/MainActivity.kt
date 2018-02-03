@@ -8,32 +8,39 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import com.takusemba.rtmppublisher.Publisher
 import com.takusemba.rtmppublisher.PublisherListener
-import com.takusemba.rtmppublisher.RtmpPublisher
 
 class MainActivity : AppCompatActivity(), PublisherListener {
 
-    private val publisher = RtmpPublisher()
+    private lateinit var publisher: Publisher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val glView: GLSurfaceView = findViewById(R.id.surface_view)
-        publisher.initialize(this, glView)
+
+        publisher = Publisher.Builder(this)
+                .setGlView(glView)
+                .setUrl(BuildConfig.STREAMING_URL)
+                .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT)
+                .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE)
+                .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE)
+                .setCameraMode(Publisher.Builder.DEFAULT_MODE)
+                .setListener(this)
+                .build()
 
         findViewById<Button>(R.id.toggle_publish).setOnClickListener {
             if (publisher.isPublishing) {
                 publisher.stopPublishing()
             } else {
-                publisher.startPublishing(BuildConfig.STREAMING_URL)
+                publisher.startPublishing()
             }
         }
 
         findViewById<ImageView>(R.id.toggle_camera).setOnClickListener {
             publisher.switchCamera()
         }
-
-        publisher.setOnPublisherListener(this)
     }
 
     override fun onResume() {

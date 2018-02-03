@@ -14,39 +14,40 @@ import android.support.v7.app.AppCompatActivity;
 public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailableListener,
         CameraSurfaceRenderer.OnRendererStateChangedListener, LifecycleObserver {
 
-    public static final int DEFAULT_WIDTH = 720;
-    public static final int DEFAULT_HEIGHT = 1280;
-
-    public static final int DEFAULT_AUDIO_BITRATE = 6400;
-    public static final int DEFAULT_VIDEO_BITRATE = 100000;
 
     private GLSurfaceView glView;
     private CameraSurfaceRenderer renderer;
     private CameraClient camera;
     private Streamer streamer;
-    private PublisherListener listener;
 
-    public RtmpPublisher(){
-        this.streamer = new Streamer();
-    }
+    private String url;
+    private int width;
+    private int height;
+    private int audioBitrate;
+    private int videoBitrate;
 
-    @Override
-    public void setOnPublisherListener(PublisherListener listener) {
-        this.listener = listener;
-        this.streamer.setMuxerListener(listener);
-    }
+    RtmpPublisher(AppCompatActivity activity,
+                  GLSurfaceView glView,
+                  String url,
+                  int width,
+                  int height,
+                  int audioBitrate,
+                  int videoBitrate,
+                  CameraMode mode,
+                  PublisherListener listener) {
 
-    @Override
-    public void initialize(AppCompatActivity activity, GLSurfaceView glView) {
-        initialize(activity, glView, CameraMode.BACK);
-    }
-
-    @Override
-    public void initialize(AppCompatActivity activity, GLSurfaceView glView, CameraMode mode) {
         activity.getLifecycle().addObserver(this);
 
         this.glView = glView;
+        this.url = url;
+        this.width = width;
+        this.height = height;
+        this.audioBitrate = audioBitrate;
+        this.videoBitrate = videoBitrate;
+
         this.camera = new CameraClient(activity, mode);
+        this.streamer = new Streamer();
+        this.streamer.setMuxerListener(listener);
 
         glView.setEGLContextClientVersion(2);
         renderer = new CameraSurfaceRenderer();
@@ -55,6 +56,7 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
 
         glView.setRenderer(renderer);
         glView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
     }
 
     @Override
@@ -63,18 +65,7 @@ public class RtmpPublisher implements Publisher, SurfaceTexture.OnFrameAvailable
     }
 
     @Override
-    public void startPublishing(String url) {
-        startPublishing(url, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
-    @Override
-    public void startPublishing(String url, int width, int height) {
-        startPublishing(url, width, height, DEFAULT_AUDIO_BITRATE, DEFAULT_VIDEO_BITRATE);
-    }
-
-    @Override
-    public void startPublishing(String url, final int width, final int height, final int audioBitrate,
-                                final int videoBitrate) {
+    public void startPublishing() {
         streamer.open(url, width, height);
         glView.queueEvent(new Runnable() {
             @Override
