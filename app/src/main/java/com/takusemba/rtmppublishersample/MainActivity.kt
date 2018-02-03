@@ -3,7 +3,6 @@ package com.takusemba.rtmppublishersample
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
-import android.os.HandlerThread
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
