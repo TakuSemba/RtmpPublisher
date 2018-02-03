@@ -78,6 +78,7 @@ class AudioEncoder implements Encoder {
      * the data will be drained from {@link AudioEncoder#drain()}
      */
     void enqueueData(byte[] data, int length) {
+        if (encoder == null) return;
         int bufferRemaining;
         long timestamp = System.currentTimeMillis() - startedEncodingAt;
         int inputBufferId = encoder.dequeueInputBuffer(TIMEOUT_USEC);

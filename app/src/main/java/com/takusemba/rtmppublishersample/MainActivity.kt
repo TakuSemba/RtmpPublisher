@@ -3,6 +3,7 @@ package com.takusemba.rtmppublishersample
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Handler
+import android.os.HandlerThread
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(), PublisherListener {
 
     private val handler = Handler()
     private var thread: Thread? = null
+    private var isCounting = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,19 +97,19 @@ class MainActivity : AppCompatActivity(), PublisherListener {
     }
 
     private fun startCounting() {
+        isCounting = true
         label.text = getString(R.string.publishing_label, 0L.format(), 0L.format())
         label.visibility = View.VISIBLE
         val startedAt = System.currentTimeMillis()
         var updatedAt = System.currentTimeMillis()
         thread = Thread {
-            while (true) {
-                val current = System.currentTimeMillis()
-                if (current - updatedAt > 1000) {
-                    updatedAt = current
+            while (isCounting) {
+                if (System.currentTimeMillis() - updatedAt > 1000) {
+                    updatedAt = System.currentTimeMillis()
                     handler.post {
-                        val diff = current - startedAt
-                        val second = diff / 1000
-                        val min = second / 60
+                        val diff = System.currentTimeMillis() - startedAt
+                        val second = diff / 1000 % 60
+                        val min = diff / 1000 / 60
                         label.text = getString(R.string.publishing_label, min.format(), second.format())
                     }
                 }
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity(), PublisherListener {
     }
 
     private fun stopCounting() {
+        isCounting = false
         label.text = ""
         label.visibility = View.GONE
         thread?.interrupt()
