@@ -55,11 +55,10 @@ publisher.setOnPublisherListener(object: PublisherListener {
   }
 })
 ```
+## Sample
+Clone this repo and check out the [app](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) module.
 
 <br/>
-
-### Sample
-Clone this repo and check out the [app](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) module.
 
 ## Quick Start
 
