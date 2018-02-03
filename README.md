@@ -18,7 +18,6 @@ dependencies {
 
 <br/>
 
-
 ## Usage
 
 usage is simple. RtmpPublisher does everything.
@@ -36,7 +35,7 @@ val publisher: Publisher = Publisher.Builder(this)
   .build()
 ```
 
-<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="300">
+<img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/sample.gif" align="right" width="30%">
 
 ### start RTMP Streaming
 
