@@ -55,8 +55,6 @@ publisher.setOnPublisherListener(object: PublisherListener {
   }
 })
 ```
-## Sample
-Clone this repo and check out the 
 
 <br/>
 
@@ -64,7 +62,7 @@ Clone this repo and check out the
 
 <img src="https://github.com/TakuSemba/RtmpPublisher/blob/master/arts/architecture.png" alt="alt text" style="width:200;height:200">
 
-Try this [sample](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) here, but this is a RTMP android clinet. You also need RTMP server and player to do publish and play them.
+Try this [sample](https://github.com/TakuSemba/RtmpPublisher/tree/master/app) here, but this is just a RTMP android clinet. You also need RTMP server and player to do publish and play them.
 
 You can either make the server and player yourself or use the ones below that i prepared.
 
