@@ -15,9 +15,11 @@ class MainActivity : AppCompatActivity(), PublisherListener {
     private lateinit var publisher: Publisher
     private lateinit var glView: GLSurfaceView
     private lateinit var container: RelativeLayout
-    private lateinit var button: Button
+    private lateinit var publishButton: Button
+    private lateinit var cameraButton: ImageView
     private lateinit var label: TextView
 
+    private val url = BuildConfig.STREAMING_URL
     private val handler = Handler()
     private var thread: Thread? = null
     private var isCounting = false
@@ -27,36 +29,45 @@ class MainActivity : AppCompatActivity(), PublisherListener {
         setContentView(R.layout.activity_main)
         glView = findViewById(R.id.surface_view)
         container = findViewById(R.id.container)
-        button = findViewById(R.id.toggle_publish)
+        publishButton = findViewById(R.id.toggle_publish)
+        cameraButton = findViewById(R.id.toggle_camera)
         label = findViewById(R.id.live_label)
 
 
-        publisher = Publisher.Builder(this)
-                .setGlView(glView)
-                .setUrl(BuildConfig.STREAMING_URL)
-                .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT)
-                .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE)
-                .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE)
-                .setCameraMode(Publisher.Builder.DEFAULT_MODE)
-                .setListener(this)
-                .build()
+        if (url.isBlank()) {
+            Toast.makeText(this, R.string.error_empty_url, Toast.LENGTH_SHORT)
+                    .apply { setGravity(Gravity.CENTER, 0, 0) }
+                    .run { show() }
+        } else {
+            publisher = Publisher.Builder(this)
+                    .setGlView(glView)
+                    .setUrl(url)
+                    .setSize(Publisher.Builder.DEFAULT_WIDTH, Publisher.Builder.DEFAULT_HEIGHT)
+                    .setAudioBitrate(Publisher.Builder.DEFAULT_AUDIO_BITRATE)
+                    .setVideoBitrate(Publisher.Builder.DEFAULT_VIDEO_BITRATE)
+                    .setCameraMode(Publisher.Builder.DEFAULT_MODE)
+                    .setListener(this)
+                    .build()
 
-        button.setOnClickListener {
-            if (publisher.isPublishing) {
-                publisher.stopPublishing()
-            } else {
-                publisher.startPublishing()
+            publishButton.setOnClickListener {
+                if (publisher.isPublishing) {
+                    publisher.stopPublishing()
+                } else {
+                    publisher.startPublishing()
+                }
             }
-        }
 
-        findViewById<ImageView>(R.id.toggle_camera).setOnClickListener {
-            publisher.switchCamera()
+            cameraButton.setOnClickListener {
+                publisher.switchCamera()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        updateControls()
+        if (url.isNotBlank()) {
+            updateControls()
+        }
     }
 
     override fun onStarted() {
@@ -92,7 +103,7 @@ class MainActivity : AppCompatActivity(), PublisherListener {
     }
 
     private fun updateControls() {
-        button.text = getString(if (publisher.isPublishing) R.string.stop_publishing else R.string.start_publishing)
+        publishButton.text = getString(if (publisher.isPublishing) R.string.stop_publishing else R.string.start_publishing)
     }
 
     private fun startCounting() {

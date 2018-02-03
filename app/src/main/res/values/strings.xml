@@ -8,6 +8,8 @@
     <string name="disconnected_publishing">Publishing Disconnected</string>
     <string name="failed_publishing">Failed To Connect</string>
 
+    <string name="error_empty_url">url is empty</string>
+
     <string name="publishing_label">LIVE  %1$s:%2$s</string>
 
 </resources>
