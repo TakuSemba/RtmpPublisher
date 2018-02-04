@@ -41,7 +41,7 @@ val publisher: Publisher = Publisher.Builder(this)
 
 ```kt
 
-// start publishing! set your rtmp url
+// start publishing!
 publisher.startPublishing()
 
 // switch camera between front and back
