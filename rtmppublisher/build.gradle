@@ -98,10 +98,6 @@ artifacts {
     archives sourcesJar
 }
 
-task findConventions << {
-    println project.getConvention()
-}
-
 afterEvaluate {
     javadoc.classpath += files(android.libraryVariants.collect { variant ->
         variant.javaCompiler.classpath.files
