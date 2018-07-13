@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:rtmppublisher:1.1.2'
+    compile 'com.github.takusemba:rtmppublisher:x.x.x'
 }
 ```
 
